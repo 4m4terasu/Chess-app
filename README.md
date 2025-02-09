@@ -16,3 +16,6 @@ Chess-app is a web-based chess game featuring:
 
 git clone https://github.com/4m4terasu/Chess-app.git
 Chess App with interactive chessboard and piece movement
+
+# Test
+Go check it out! https://4m4terasu.github.io/Chess-app/
