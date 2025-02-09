@@ -1,0 +1,234 @@
+/* Reset default margins and set a dark background */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #333;
+  overflow-x: hidden;
+  position: relative; /* Needed for the pseudo-element */
+}
+
+/* Fixed border via a pseudo-element that stays on screen */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 10px solid #333; /* Adjust thickness and color as needed */
+  box-sizing: border-box;
+  pointer-events: none;  /* Allows clicks to pass through */
+  z-index: 9999;         /* Ensure it stays on top */
+}
+
+/* Main container: use flex to center the board */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 10px;
+  position: relative; /* for stacking context */
+}
+
+/* Board container: center board and controls */
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Controls (Restart and Switch Side) */
+.controls {
+  margin-top: -100px;
+  margin-bottom: 5px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+/* Chessboard grid: responsive layout */
+.chess-board {
+  border: 5px solid #333;
+  /* Center the board within its container */
+  display: grid;
+  margin: 0; 
+}
+
+@media (max-width: 768px) {
+  .chess-board {
+    grid-template-columns: repeat(8, minmax(60px, 10vw));
+    grid-template-rows: repeat(8, minmax(60px, 10vw));
+  }
+}
+
+@media (min-width: 769px) {
+  .chess-board {
+    grid-template-columns: repeat(8, 75px);
+    grid-template-rows: repeat(8, 75px);
+  }
+}
+
+/* Individual cell styling */
+.cell {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11mm;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  position: relative;
+}
+
+.cell.light {
+  background-color: #f0d9b5;
+}
+
+.cell.dark {
+  background-color: #b58863;
+}
+
+/* Selected cell: subtle yellow tint with slight scale effect */
+.cell.selected {
+  background-color: #ffec99;
+  transform: scale(1.05);
+}
+
+/* Highlight available moves: green dot centered */
+.cell.available::after {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: rgba(0, 255, 0, 0.5);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* White pieces: white color with dark shadow */
+.white-piece {
+  color: white;
+  text-shadow: 1px 1px 3px black;
+}
+
+/* Black pieces: black color with light shadow */
+.black-piece {
+  color: black;
+  text-shadow: 1px 1px 3px white;
+}
+
+/* Status area */
+.status {
+  text-align: center;
+  font-size: 1.7rem;
+  margin-bottom: 10px;
+}
+
+/* History panel: fixed on the right side */
+.history-panel {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 250px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: black;
+}
+
+.history-panel h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.history-list {
+  font-size: 0.9rem;
+  color: black;
+  /* Set max-height so that after about 20 moves, a scrollbar appears */
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.history-move {
+  margin: 3px 0;
+  text-align: left;
+}
+
+/* Export PGN button: placed inside history panel, below the move list */
+.export-btn {
+  display: block;
+  width: auto;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin: 10px auto 50px auto;
+}
+
+/* Promotion Modal Styles */
+.promotion-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.promotion-content {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.promotion-content button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Confirmation Modal Styles */
+.confirm-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-content {
+  background-color: #b58863;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.confirm-content button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
